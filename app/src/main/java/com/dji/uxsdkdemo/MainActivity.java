@@ -1,12 +1,21 @@
 package com.dji.uxsdkdemo;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getName();
+    private static final int ERROR_DIALOG_REQUEST = 9001;
+    private ImageButton mapBtn;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,5 +35,17 @@ public class MainActivity extends AppCompatActivity {
                     , 1);
         }
         setContentView(R.layout.activity_main);
+        initUI();
+    }
+
+    private void initUI(){
+        mapBtn = (ImageButton) findViewById(R.id.mapBtn);
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mapIntent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(mapIntent);
+            }
+        });
     }
 }
