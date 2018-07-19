@@ -1,17 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.0'
     defaultConfig {
         applicationId "com.dji.uxsdkdemo"
-        minSdkVersion 17
-        targetSdkVersion 25
+        minSdkVersion 19
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
         // Enabling multidex support.
         multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -19,12 +20,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    dexOptions {
-        javaMaxHeapSize "3g"
-    }
-    lintOptions {
-        abortOnError false
-    }
+//    dexOptions {
+//        javaMaxHeapSize "3g"
+//    }
+//    lintOptions {
+//        abortOnError false
+//    }
 
     packagingOptions {
         doNotStrip "*/*/libdjivideo.so"
@@ -42,17 +43,19 @@ android {
 
 
 dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation "com.google.android.gms:play-services-location:15.0.1"
     compile 'com.google.maps.android:android-maps-utils:0.5+'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+
 
     //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:multidex:1.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     compile('com.dji:dji-uxsdk:4.5.1')
     provided('com.dji:dji-sdk-provided:4.5.1')
