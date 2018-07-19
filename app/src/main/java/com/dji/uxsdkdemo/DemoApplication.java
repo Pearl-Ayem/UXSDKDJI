@@ -94,7 +94,7 @@ public class DemoApplication extends Application {
                             Toast.makeText(getApplicationContext(), "Register Success", Toast.LENGTH_LONG).show();
                         }
                     });
-                    loginAccount();
+                    //loginAccount();
 
                 } else {
                     Handler handler = new Handler(Looper.getMainLooper());
@@ -153,21 +153,21 @@ public class DemoApplication extends Application {
 
     }
 
-    private void loginAccount() {
-
-        UserAccountManager.getInstance().logIntoDJIUserAccount(this,
-                new CommonCallbacks.CompletionCallbackWith<UserAccountState>() {
-                    @Override
-                    public void onSuccess(final UserAccountState userAccountState) {
-                        Log.e("TAG", "Login Success");
-                    }
-
-                    @Override
-                    public void onFailure(DJIError error) {
-                        Log.e("TAG", "Login Error:" + error.getDescription());
-                    }
-                });
-    }
+//    private void loginAccount() {
+//
+//        UserAccountManager.getInstance().logIntoDJIUserAccount(this,
+//                new CommonCallbacks.CompletionCallbackWith<UserAccountState>() {
+//                    @Override
+//                    public void onSuccess(final UserAccountState userAccountState) {
+//                        Log.e("TAG", "Login Success");
+//                    }
+//
+//                    @Override
+//                    public void onFailure(DJIError error) {
+//                        Log.e("TAG", "Login Error:" + error.getDescription());
+//                    }
+//                });
+//    }
 
     private void notifyStatusChange() {
         mHandler.removeCallbacks(updateRunnable);
