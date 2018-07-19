@@ -145,9 +145,17 @@
             android:layout_height="91dp"
             android:layout_marginRight="12dp"
             tools:ignore="RtlHardcoded"/>
-
-    </LinearLayout>
-
+            </LinearLayout>
+    <ImageButton
+        android:id="@+id/mapBtn"
+        android:layout_width="73dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="40dp"
+        android:layout_weight="1"
+        custom:srcCompat="@drawable/ic_map"
+        tools:ignore="NotSibling" />
 
     <!--Take off and return home buttons on left -->
     <LinearLayout
@@ -186,7 +194,8 @@
         android:gravity="center"
         android:layout_height="263dp"
         android:visibility="invisible"
-        tools:ignore="RtlHardcoded"/>
+        tools:ignore="RtlHardcoded"
+        android:id="@+id/cameraSettingExposurePanel3" />
 
     <dji.ux.panel.CameraSettingAdvancedPanel
         android:layout_width="180dp"
@@ -196,7 +205,9 @@
         android:background="@color/transparent"
         android:gravity="center"
         android:visibility="invisible"
-        tools:ignore="RtlHardcoded"/>
+        tools:ignore="RtlHardcoded">
+
+    </dji.ux.panel.CameraSettingAdvancedPanel>
 
     <!-- Pre-flight checklist panel -->
     <dji.ux.panel.PreFlightCheckListPanel
