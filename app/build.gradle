@@ -26,7 +26,7 @@ android {
         abortOnError false
     }
 
-    packagingOptions{
+    packagingOptions {
         doNotStrip "*/*/libdjivideo.so"
         doNotStrip "*/*/libSDKRelativeJNI.so"
         doNotStrip "*/*/libFlyForbid.so"
@@ -40,13 +40,21 @@ android {
     }
 }
 
+
 dependencies {
+    //noinspection GradleCompatible
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation "com.google.android.gms:play-services-location:15.0.1"
+    compile 'com.google.maps.android:android-maps-utils:0.5+'
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:25.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:multidex:1.0.1'
 
-    compile ('com.dji:dji-uxsdk:4.5.1')
-    provided ('com.dji:dji-sdk-provided:4.5.1')
+    compile('com.dji:dji-uxsdk:4.5.1')
+    provided('com.dji:dji-sdk-provided:4.5.1')
 
 }
