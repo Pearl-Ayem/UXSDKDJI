@@ -20,12 +20,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-//    dexOptions {
-//        javaMaxHeapSize "3g"
-//    }
-//    lintOptions {
-//        abortOnError false
-//    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    lintOptions {
+        abortOnError false
+    }
 
     packagingOptions {
         doNotStrip "*/*/libdjivideo.so"
