@@ -49,9 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private EditText mHeadingOrigin;
     private EditText mHeadingDest;
     private TextView mHeading;
-    private Marker mOriginMarker;
-    private Marker mDestMarker;
-    private Polyline mPolyline;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "initMap: initializing map");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.mapView);
         mapFragment.getMapAsync(this);
 
     }
@@ -87,17 +85,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng UAV = new LatLng(49.238074, -122.853361);
         mMap.addMarker(new MarkerOptions().position(UAV).title("Marker in UAViation Aerial Solutions"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(UAV));
-
-
-//        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-//                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            getDeviceLocation();
-//            mMap.setMyLocationEnabled(true);
-//            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//            mMap.getUiSettings().setCompassEnabled(true);
-//            mMap.getUiSettings().setRotateGesturesEnabled(true);
-//            init();
-//        }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
