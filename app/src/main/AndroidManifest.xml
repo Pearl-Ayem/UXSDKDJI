@@ -27,6 +27,9 @@
     <uses-feature
         android:name="android.hardware.usb.accessory"
         android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <!-- SDK requirement permission end -->
     <application
@@ -43,6 +46,12 @@
         <meta-data
             android:name="com.dji.sdk.API_KEY"
             android:value="4fbe3faaba89d9dd0ddbe171" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAG1RGqCdtN4RS-Q-phUrnEJiNgnVNszkw" />
+
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name="dji.sdk.sdkmanager.DJIAoaControllerActivity"
@@ -56,16 +65,23 @@
                 android:resource="@xml/accessory_filter" />
         </activity>
 
-        <service android:name="dji.sdk.sdkmanager.DJIGlobalService"></service>
+        <service android:name="dji.sdk.sdkmanager.DJIGlobalService" />
         <!-- DJI SDK -->
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MapsActivity"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>
