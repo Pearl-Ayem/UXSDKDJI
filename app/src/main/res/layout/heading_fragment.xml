@@ -18,17 +18,16 @@
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="Calculate Heading"
+            android:text="@string/calculate_heading"
             android:textColor="#000"
             android:textSize="18sp" />
 
         <EditText
             android:id="@+id/origin"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_below="@+id/title"
             android:hint="@string/heading_origin_hint"
-            android:background="@drawable/white_border"
             android:inputType="text"
             android:maxLines="1"
             android:textColor="#000"
@@ -36,30 +35,28 @@
 
         <EditText
             android:id="@+id/dest"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_below="@+id/origin"
             android:hint="@string/heading_destination_hint"
-            android:background="@drawable/white_border"
             android:inputType="text"
             android:maxLines="1"
             android:textColor="#000"
             android:textSize="15sp" />
         <TextView
             android:id="@+id/heading"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dest"
-            android:background="@drawable/white_border"
             android:text="@string/heading_hint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OK"
+            android:text="@string/ok"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
             android:textSize="18sp"
             android:textColor="#33bbff"
             android:id="@+id/action_ok"/>
@@ -67,10 +64,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CANCEL"
+            android:text="@string/cancel"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="20dp"
             android:textSize="18sp"
             android:textColor="#33bbff"
             android:id="@+id/action_cancel"/>

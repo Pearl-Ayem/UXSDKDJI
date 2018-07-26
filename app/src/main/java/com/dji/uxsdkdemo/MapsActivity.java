@@ -42,7 +42,15 @@ import com.google.maps.android.SphericalUtil;
 
 import static com.google.maps.android.SphericalUtil.computeHeading;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Heading.onInputListener {
+
+
+    @Override
+    public void sendInput(LatLng o, LatLng d) {
+        headingOrg = o;
+        headingDest = d;
+        setMarkers();
+    }
 
     private static final float DEFAULT_ZOOM = 15f;
     public GoogleMap mMap;
@@ -53,6 +61,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Marker searchMarker;
     public Marker originMarker;
     public Marker destMarker;
+    private LatLng headingOrg;
+    private LatLng headingDest;
 
 
     @Override
@@ -103,8 +113,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(UAV));
 
 
-
-
         getDeviceLocation();
         mMap.setPadding(0, 200, 0, 0);
         mMap.setMyLocationEnabled(true);
@@ -139,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View view) {
                 Log.d(TAG, "opening heading fragment");
                 Heading headingFragment = new Heading();
-                headingFragment.show(getSupportFragmentManager(),"Heading Dialogue");
+                headingFragment.show(getSupportFragmentManager(), "Heading Dialogue");
             }
         });
     }
@@ -219,5 +227,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
+    private void setMarkers() {
+        if (headingDest != null && headingOrg != null) {
+            MarkerOptions originMarkerOptions = new MarkerOptions().position(headingOrg).title("Origin")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+            originMarker = mMap.addMarker(originMarkerOptions);
+
+
+            MarkerOptions destMarkerOptions = new MarkerOptions().position(headingDest).title("Tie-Point");
+//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            destMarker = mMap.addMarker(destMarkerOptions);
+        } else {
+            //do nothing
+        }
+
+    }
 
 }

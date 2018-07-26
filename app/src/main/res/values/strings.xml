@@ -5,4 +5,7 @@
     <string name="heading_origin_hint">Origin Coordinates</string>
     <string name="heading_destination_hint">Destination Coordinates</string>
     <string name="heading_hint">Heading:</string>
+    <string name="calculate_heading">Calculate Heading</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
 </resources>
