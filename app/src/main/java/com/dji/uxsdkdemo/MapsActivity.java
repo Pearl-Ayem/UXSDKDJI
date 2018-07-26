@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.location.Location;
 import android.view.KeyEvent;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -42,13 +45,14 @@ import static com.google.maps.android.SphericalUtil.computeHeading;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final float DEFAULT_ZOOM = 15f;
-    private GoogleMap mMap;
+    public GoogleMap mMap;
     private static final String TAG = "MapActivity";
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private EditText mSearchText;
-    private EditText mHeadingOrigin;
-    private EditText mHeadingDest;
-    private TextView mHeading;
+    private ImageButton mLaunchHeading;
+    public Marker searchMarker;
+    public Marker originMarker;
+    public Marker destMarker;
 
 
     @Override
@@ -56,9 +60,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps2);
         mSearchText = (EditText) findViewById(R.id.input_search);
-        mHeadingOrigin = (EditText) findViewById(R.id.origin);
-        mHeadingDest = (EditText) findViewById(R.id.dest);
-        mHeading = (TextView) findViewById(R.id.heading);
+//        mHeadingOrigin = (EditText) findViewById(R.id.origin);
+//        mHeadingDest = (EditText) findViewById(R.id.dest);
+//        mHeading = (TextView) findViewById(R.id.heading);
+        mLaunchHeading = findViewById(R.id.ic_heading_launcher);
 
         Log.d(TAG, "initMap: initializing map");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -80,17 +85,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        // Add a marker in UAViation and move the camera
-        LatLng UAV = new LatLng(49.238074, -122.853361);
-        mMap.addMarker(new MarkerOptions().position(UAV).title("Marker in UAViation Aerial Solutions"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(UAV));
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
+
+        mMap = googleMap;
+
+        // Add a marker in UAViation and move the camera
+        LatLng UAV = new LatLng(49.238074, -122.853361);
+        MarkerOptions options = new MarkerOptions()
+                .position(UAV).title("UAViation Aerial Solutions")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_company_location));
+        searchMarker = mMap.addMarker(options);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(UAV));
+
+
+
 
         getDeviceLocation();
         mMap.setPadding(0, 200, 0, 0);
@@ -121,35 +134,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        mHeadingOrigin.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mLaunchHeading.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_NULL
-                        || i == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    //execute our method for searching
-                    showHeading(textView);
-                }
-                return false;
+            public void onClick(View view) {
+                Log.d(TAG, "opening heading fragment");
+                Heading headingFragment = new Heading();
+                headingFragment.show(getSupportFragmentManager(),"Heading Dialogue");
             }
         });
-
-        mHeadingDest.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_NULL
-                        || i == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    //execute our method for searching
-                    showHeading(textView);
-                }
-                return false;
-            }
-        });
-
-
     }
 
 
@@ -225,28 +217,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void hideSoftKeyboard() {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-    }
-
-    private double getHeading(String origin, String dest) {
-        return computeHeading(convertoLatLon(origin), convertoLatLon(dest));
-    }
-
-    private void showHeading(View v) {
-        try {
-            String org = mHeadingOrigin.getText().toString();
-            String desti = mHeadingDest.getText().toString();
-            mHeading.setText(" Heading: " + getHeading(org, desti));
-        } catch (NumberFormatException e){
-            //do nothing
-        }
-    }
-
-    private LatLng convertoLatLon(String input) {
-        String[] latlonString = input.split(",");
-        double lat = Double.parseDouble(latlonString[0]);
-        double lon = Double.parseDouble(latlonString[1]);
-        LatLng latlon = new LatLng(lat, lon);
-        return latlon;
     }
 
 

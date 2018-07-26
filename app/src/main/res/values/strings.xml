@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">UXSDK DJI</string>
+    <string name="app_name">LOS_Demo</string>
     <string name="title_activity_maps">Map</string>
+    <string name="search_hint">Enter Address, City or Zip Code</string>
+    <string name="heading_origin_hint">Origin Coordinates</string>
+    <string name="heading_destination_hint">Destination Coordinates</string>
+    <string name="heading_hint">Heading:</string>
 </resources>
