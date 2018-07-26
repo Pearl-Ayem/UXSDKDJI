@@ -56,29 +56,26 @@ public class Heading extends DialogFragment {
         mHeadingOrigin.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEARCH
-                        || i == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_BACK
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                if (i == EditorInfo.IME_ACTION_NEXT) {
                     origin = textView.getText().toString();
-                    updateHeading();
+//                    updateHeading();
+                    return true;
                 }
+
                 return false;
             }
         });
 
         mHeadingDest.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEARCH
-                        || i == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_BACK
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
                     tie_point = textView.getText().toString();
                     updateHeading();
+                    return true;
                 }
+
+
                 return false;
             }
         });
@@ -110,30 +107,11 @@ public class Heading extends DialogFragment {
     private void updateHeading() {
         try {
             double heading = getHeading(origin, tie_point);
-            mHeading.setText(" Heading: " + getHeading(origin, tie_point));
-        } catch (NullPointerException e) {
-            //do nothing
-        }
-        catch (NumberFormatException n){
+            mHeading.setText(" Heading: " + heading);
+        } catch (NullPointerException e){
             //do nothing
         }
     }
-
-//    private void setMarkers() {
-//        if (!origin.isEmpty() && !tie_point.isEmpty()) {
-//            MarkerOptions originMarkerOptions = new MarkerOptions().position(convertoLatLon(origin)).title("Origin")
-//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-//            ((MapsActivity) getActivity()).originMarker = ((MapsActivity) getActivity()).mMap.addMarker(originMarkerOptions);
-//
-//
-//            MarkerOptions destMarkerOptions = new MarkerOptions().position(convertoLatLon(tie_point)).title("Tie-Point");
-////                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-//            ((MapsActivity) getActivity()).destMarker = ((MapsActivity) getActivity()).mMap.addMarker(destMarkerOptions);
-//        } else {
-//            //do nothing
-//        }
-//
-//    }
 
     private double getHeading(String origin, String dest) {
         return computeHeading(convertoLatLon(origin), convertoLatLon(dest));
@@ -141,30 +119,28 @@ public class Heading extends DialogFragment {
 
 
     private LatLng convertoLatLon(String input) {
-       try{
-           String[] latlonString = input.split(",");
-           double lat = Double.parseDouble(latlonString[0]);
-           double lon = Double.parseDouble(latlonString[1]);
-           LatLng latlon = new LatLng(lat, lon);
-           return latlon;
-       } catch (NullPointerException e){
-           //do nothing
-       }
+        try {
+            String[] latlonString = input.split(",");
+            double lat = Double.parseDouble(latlonString[0]);
+            double lon = Double.parseDouble(latlonString[1]);
+            LatLng latlon = new LatLng(lat, lon);
+            return latlon;
+        } catch (NullPointerException e) {
+            //do nothing
+        } catch (NumberFormatException e) {
+            //do nothing
+        }
 
-       catch (NumberFormatException e){
-           //do nothing
-       }
-
-       return null;
+        return null;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-            try {
-                mOnInputListener = (onInputListener)getActivity();
-            } catch (ClassCastException e) {
-                Log.e(TAG, "onAttach: ClassCastException: " + e.getMessage());
+        try {
+            mOnInputListener = (onInputListener) getActivity();
+        } catch (ClassCastException e) {
+            Log.e(TAG, "onAttach: ClassCastException: " + e.getMessage());
         }
     }
 }
