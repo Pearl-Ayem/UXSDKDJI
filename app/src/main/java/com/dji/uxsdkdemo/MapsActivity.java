@@ -229,6 +229,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setMarkers() {
         if (headingDest != null && headingOrg != null) {
+
             MarkerOptions originMarkerOptions = new MarkerOptions().position(headingOrg).title("Origin")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
             originMarker = mMap.addMarker(originMarkerOptions);

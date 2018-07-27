@@ -25,7 +25,7 @@
         <EditText
             android:id="@+id/origin"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:hint="@string/heading_origin_hint"
             android:inputType="text"
@@ -37,7 +37,7 @@
         <EditText
             android:id="@+id/dest"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/origin"
             android:hint="@string/heading_destination_hint"
             android:inputType="text"

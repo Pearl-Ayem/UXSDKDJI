@@ -46,17 +46,20 @@ public class Heading extends DialogFragment {
 
         mActionCancel = view.findViewById(R.id.action_cancel);
         mActionOk = view.findViewById(R.id.action_ok);
-        mHeadingOrigin = view.findViewById(R.id.origin);
-        mHeadingDest = view.findViewById(R.id.dest);
+        mHeadingOrigin = (EditText )view.findViewById(R.id.origin);
+        mHeadingDest = (EditText)view.findViewById(R.id.dest);
         mHeading = view.findViewById(R.id.heading);
         origin = null;
         tie_point = null;
 
 
+
+
+
         mHeadingOrigin.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_NEXT) {
+                if (i == EditorInfo.IME_ACTION_NEXT || i == KeyEvent.KEYCODE_ENTER) {
                     origin = textView.getText().toString();
 //                    updateHeading();
                     return true;
@@ -69,7 +72,7 @@ public class Heading extends DialogFragment {
         mHeadingDest.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
              public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_DONE) {
+                if (i == EditorInfo.IME_ACTION_DONE || i == KeyEvent.KEYCODE_ENTER) {
                     tie_point = textView.getText().toString();
                     updateHeading();
                     return true;
