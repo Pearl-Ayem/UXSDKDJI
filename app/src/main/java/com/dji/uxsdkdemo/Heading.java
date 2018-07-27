@@ -97,7 +97,7 @@ public class Heading extends DialogFragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: capturing input");
 //                setMarkers();
-
+                updateHeading();
                 mOnInputListener.sendInput(convertoLatLon(origin), convertoLatLon(tie_point));
                 getDialog().dismiss();
             }
