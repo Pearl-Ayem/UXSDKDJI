@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.location.Location;
 import android.view.KeyEvent;
@@ -30,17 +29,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.maps.android.SphericalUtil;
-
-import static com.google.maps.android.SphericalUtil.computeHeading;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Heading.onInputListener {
 
@@ -54,9 +48,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Marker originMarker;
     public Marker destMarker;
 
-    private LatLng headingOrg;
-    private LatLng headingDest;
-    private Double headingCalc;
+    public LatLng headingOrg;
+    public LatLng headingDest;
+    public Double headingCalc;
 
     @Override
     public void sendInput(LatLng o, LatLng d, Double h) {
@@ -65,8 +59,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         headingCalc = h;
         setMarkers();
     }
-
-
 
 
     @Override
@@ -234,11 +226,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setMarkers() {
         if (headingDest != null && headingOrg != null) {
 
-            if(originMarker != null){
+            if (originMarker != null) {
                 originMarker.remove();
             }
 
-            if(destMarker != null){
+            if (destMarker != null) {
                 destMarker.remove();
             }
 
@@ -254,6 +246,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //do nothing
         }
 
+    }
+
+    public LatLng getHeadingOrg() {
+        return headingOrg;
+    }
+
+    public LatLng getHeadingDest() {
+        return headingDest;
     }
 
 }

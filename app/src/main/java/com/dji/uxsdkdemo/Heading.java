@@ -36,8 +36,8 @@ public class Heading extends DialogFragment {
     private EditText mHeadingDest;
     private TextView mHeading, mActionOk, mActionCancel;
 
-    private String origin;
-    private String tie_point;
+    private LatLng origin;
+    private LatLng tie_point;
     private Double headingCalc;
 
     @Nullable
@@ -50,9 +50,23 @@ public class Heading extends DialogFragment {
         mHeadingOrigin = (EditText) view.findViewById(R.id.origin);
         mHeadingDest = (EditText) view.findViewById(R.id.dest);
         mHeading = view.findViewById(R.id.heading);
-        origin = null;
-        tie_point = null;
-        headingCalc = null;
+
+
+        if (((MapsActivity) getActivity()).getHeadingOrg()!= null) {
+            origin = ((MapsActivity) getActivity()).getHeadingOrg();
+        } else {
+            origin = null;
+        }
+
+        if (((MapsActivity) getActivity()).getHeadingDest() !=null) {
+            tie_point = ((MapsActivity) getActivity()).getHeadingDest();
+        } else {
+            tie_point = null;
+        }
+
+        updateHeading();
+
+//        headingCalc = null;
 
 
         mHeadingOrigin.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -61,7 +75,7 @@ public class Heading extends DialogFragment {
                 if (i == EditorInfo.IME_ACTION_SEARCH
                         || i == EditorInfo.IME_ACTION_NEXT
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    origin = textView.getText().toString();
+                    origin = convertoLatLon(textView.getText().toString());
 //                    updateHeading();
                     return true;
                 }
@@ -76,7 +90,7 @@ public class Heading extends DialogFragment {
                 if (i == EditorInfo.IME_ACTION_SEARCH
                         || i == EditorInfo.IME_ACTION_DONE
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    tie_point = textView.getText().toString();
+                    tie_point = convertoLatLon(textView.getText().toString());
                     updateHeading();
                     return true;
                 }
@@ -101,7 +115,7 @@ public class Heading extends DialogFragment {
                 Log.d(TAG, "onClick: capturing input");
 //                setMarkers();
 //                updateHeading();
-                mOnInputListener.sendInput(convertoLatLon(origin), convertoLatLon(tie_point), headingCalc);
+                mOnInputListener.sendInput(origin,tie_point, headingCalc);
                 getDialog().dismiss();
             }
         });
@@ -119,8 +133,8 @@ public class Heading extends DialogFragment {
         }
     }
 
-    private double getHeading(String origin, String dest) {
-        double heading = computeHeading(convertoLatLon(origin), convertoLatLon(dest));
+    private double getHeading(LatLng o, LatLng dest) {
+        double heading = computeHeading(origin,tie_point);
         headingCalc = heading;
         return heading;
     }
