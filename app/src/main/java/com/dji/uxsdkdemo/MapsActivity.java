@@ -12,6 +12,7 @@ import android.util.Log;
 import android.location.Location;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -67,10 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps2);
-        mSearchText = (EditText) findViewById(R.id.input_search);
-//        mHeadingOrigin = (EditText) findViewById(R.id.origin);
-//        mHeadingDest = (EditText) findViewById(R.id.dest);
-//        mHeading = (TextView) findViewById(R.id.heading);
+        mSearchText =  findViewById(R.id.input_search);
         mLaunchHeading = findViewById(R.id.ic_heading_launcher);
 
         Log.d(TAG, "initMap: initializing map");
@@ -285,33 +283,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mapTypeNone:
                 mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
-                break;
+                return true;
             case R.id.mapTypeNormal:
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                break;
+                return true;
             case R.id.mapTypeSatellite:
                 mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                break;
+                return true;
             case R.id.mapTypeTerrain:
                 mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-                break;
+                return true;
             case R.id.mapTypeHybrid:
                 mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-                break;
-
+                return true;
             default:
-                break;
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
 }
