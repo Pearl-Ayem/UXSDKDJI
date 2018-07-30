@@ -115,6 +115,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setRotateGesturesEnabled(true);
+
+
         init();
 
     }
@@ -144,6 +146,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d(TAG, "opening heading fragment");
                 Heading headingFragment = new Heading();
                 headingFragment.show(getSupportFragmentManager(), "Heading Dialogue");
+            }
+        });
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                if (marker.equals(originMarker)) {
+                    headingOrg = marker.getPosition();
+                }
+
+                if (marker.equals(destMarker)) {
+                    headingDest = marker.getPosition();
+                }
             }
         });
     }
@@ -235,11 +260,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
             MarkerOptions originMarkerOptions = new MarkerOptions().position(headingOrg).title("Origin")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)).draggable(true);
             originMarker = mMap.addMarker(originMarkerOptions);
 
 
-            MarkerOptions destMarkerOptions = new MarkerOptions().position(headingDest).title("Tie-Point");
+            MarkerOptions destMarkerOptions = new MarkerOptions().position(headingDest).title("Tie-Point").draggable(true);
 //                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             destMarker = mMap.addMarker(destMarkerOptions);
         } else {
