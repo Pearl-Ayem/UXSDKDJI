@@ -31,8 +31,10 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="#000"
-            android:imeOptions="actionNext"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:imeOptions="actionNext"/>
+
+
 
         <EditText
             android:id="@+id/dest"
@@ -43,8 +45,9 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="#000"
-            android:imeOptions="actionDone"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:imeOptions="actionDone" />
+
         <TextView
             android:id="@+id/heading"
             android:layout_width="wrap_content"

@@ -44,14 +44,6 @@ import static com.google.maps.android.SphericalUtil.computeHeading;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Heading.onInputListener {
 
-
-    @Override
-    public void sendInput(LatLng o, LatLng d) {
-        headingOrg = o;
-        headingDest = d;
-        setMarkers();
-    }
-
     private static final float DEFAULT_ZOOM = 15f;
     public GoogleMap mMap;
     private static final String TAG = "MapActivity";
@@ -61,8 +53,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Marker searchMarker;
     public Marker originMarker;
     public Marker destMarker;
+
     private LatLng headingOrg;
     private LatLng headingDest;
+    private Double headingCalc;
+
+    @Override
+    public void sendInput(LatLng o, LatLng d, Double h) {
+        headingOrg = o;
+        headingDest = d;
+        headingCalc = h;
+        setMarkers();
+    }
+
+
 
 
     @Override
@@ -229,6 +233,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setMarkers() {
         if (headingDest != null && headingOrg != null) {
+
+            if(originMarker != null){
+                originMarker.remove();
+            }
+
+            if(destMarker != null){
+                destMarker.remove();
+            }
 
             MarkerOptions originMarkerOptions = new MarkerOptions().position(headingOrg).title("Origin")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));

@@ -27,7 +27,7 @@ public class Heading extends DialogFragment {
     private static final String TAG = "Heading Fragment";
 
     public interface onInputListener {
-        void sendInput(LatLng o, LatLng d);
+        void sendInput(LatLng o, LatLng d, Double h);
     }
 
     public onInputListener mOnInputListener;
@@ -38,6 +38,7 @@ public class Heading extends DialogFragment {
 
     private String origin;
     private String tie_point;
+    private Double headingCalc;
 
     @Nullable
     @Override
@@ -46,20 +47,20 @@ public class Heading extends DialogFragment {
 
         mActionCancel = view.findViewById(R.id.action_cancel);
         mActionOk = view.findViewById(R.id.action_ok);
-        mHeadingOrigin = (EditText )view.findViewById(R.id.origin);
-        mHeadingDest = (EditText)view.findViewById(R.id.dest);
+        mHeadingOrigin = (EditText) view.findViewById(R.id.origin);
+        mHeadingDest = (EditText) view.findViewById(R.id.dest);
         mHeading = view.findViewById(R.id.heading);
         origin = null;
         tie_point = null;
-
-
-
+        headingCalc = null;
 
 
         mHeadingOrigin.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_NEXT || i == KeyEvent.KEYCODE_ENTER) {
+                if (i == EditorInfo.IME_ACTION_SEARCH
+                        || i == EditorInfo.IME_ACTION_NEXT
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
                     origin = textView.getText().toString();
 //                    updateHeading();
                     return true;
@@ -71,8 +72,10 @@ public class Heading extends DialogFragment {
 
         mHeadingDest.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_DONE || i == KeyEvent.KEYCODE_ENTER) {
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH
+                        || i == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
                     tie_point = textView.getText().toString();
                     updateHeading();
                     return true;
@@ -97,8 +100,8 @@ public class Heading extends DialogFragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: capturing input");
 //                setMarkers();
-                updateHeading();
-                mOnInputListener.sendInput(convertoLatLon(origin), convertoLatLon(tie_point));
+//                updateHeading();
+                mOnInputListener.sendInput(convertoLatLon(origin), convertoLatLon(tie_point), headingCalc);
                 getDialog().dismiss();
             }
         });
@@ -111,13 +114,15 @@ public class Heading extends DialogFragment {
         try {
             double heading = getHeading(origin, tie_point);
             mHeading.setText(" Heading: " + heading);
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             //do nothing
         }
     }
 
     private double getHeading(String origin, String dest) {
-        return computeHeading(convertoLatLon(origin), convertoLatLon(dest));
+        double heading = computeHeading(convertoLatLon(origin), convertoLatLon(dest));
+        headingCalc = heading;
+        return heading;
     }
 
 
