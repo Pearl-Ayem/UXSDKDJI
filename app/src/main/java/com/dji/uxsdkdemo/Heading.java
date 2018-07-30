@@ -47,19 +47,22 @@ public class Heading extends DialogFragment {
 
         mActionCancel = view.findViewById(R.id.action_cancel);
         mActionOk = view.findViewById(R.id.action_ok);
-        mHeadingOrigin = (EditText) view.findViewById(R.id.origin);
-        mHeadingDest = (EditText) view.findViewById(R.id.dest);
+        mHeadingOrigin = view.findViewById(R.id.origin);
+        mHeadingDest =  view.findViewById(R.id.dest);
         mHeading = view.findViewById(R.id.heading);
 
 
         if (((MapsActivity) getActivity()).getHeadingOrg()!= null) {
             origin = ((MapsActivity) getActivity()).getHeadingOrg();
+            mHeadingOrigin.setText(makeLatLonStr(origin));
         } else {
             origin = null;
         }
 
         if (((MapsActivity) getActivity()).getHeadingDest() !=null) {
             tie_point = ((MapsActivity) getActivity()).getHeadingDest();
+            mHeadingDest.setText(makeLatLonStr(tie_point));
+
         } else {
             tie_point = null;
         }
@@ -164,5 +167,12 @@ public class Heading extends DialogFragment {
         } catch (ClassCastException e) {
             Log.e(TAG, "onAttach: ClassCastException: " + e.getMessage());
         }
+    }
+
+    public String makeLatLonStr(LatLng ll){
+        double lat = ll.latitude;
+        double lon = ll.longitude;
+        String out = lat + "," + lon;
+        return out;
     }
 }
